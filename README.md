@@ -13,25 +13,40 @@ gem 'flash_it'
 
 ## Usage
 
+### Default usage
 ```ruby
   class UsersController < ApplicationController
     def update
       if current_user.profile.update_attributes(user_params)
-        flash_it(:success)
-        return redirect_to edit_user_profile_path
+        flash_it :success
+        redirect_to :back
       else
-        flash_it(:error)
+        flash_it :error
         render :edit
       end
     end
   end
 ```
 
-flash_it will make a lookup in your translation files for ``flash_messages.users.update.success`` or ``flash_messages.users.update.error``
+flash_it will make a lookup in your translation files for
+```yml
+en:
+  flash_messages:
+    users:
+      update:
+        success: This was sucessfully
+        error: Oops, there was something wrong
+```
 
-By default, the `:error` messages will become a `flash[:error]` and everything else becomes a `flash[:success]` but of course you're able to customize it, by given the type of the flash message: ``flash_it(:success, :notice)``
 
-Also this is able ``flash_it(:attention, :warning)`` which will lookup into ``flash_messages.controller.action.attention`` and uses a ``flash[:warning]``
+### Advanced usage
+
+By default, the type of the flash message is `success` if the argument was not `:error`.
+You can change this behavior and set the type of the flash message by passing a second argument.
+``flash_it :success, :notice`` then will be a ``flash[:notice]``
+
+Also you can do something like ``flash_it(:attention, :warning)``
+
 
 ### Controller Namespacing
 
@@ -43,7 +58,9 @@ en:
     admin:
       users:
         payment_history:
-          key: value
+          update:
+            success: "This was successfull!" 
+
 
 ```
 

@@ -1,6 +1,7 @@
-# FlashIt
+# flash_it
+### Welcome to flash_it !
+The long desired flash message translation helper
 
-Welcome to flash_it - the flash helper for translating your flash messages with ease!
 
 ## Installation
 

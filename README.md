@@ -49,6 +49,9 @@ You can change this behavior and set the type of the flash message by passing a 
 Also you can do something like ``flash_it(:attention, :warning)``
 
 
+There is no need to give an argument ``:success`` this is the default lookup.
+``flash_it`` is exactly equal to ``flash_it :success``
+
 ### Controller Namespacing
 
 If you are having namespaced controllers, just edit your yml file to the namespaces

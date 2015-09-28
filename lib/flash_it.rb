@@ -8,7 +8,7 @@ module FlashIt
   included do
 
     # setting flash messages, based on controller/action/key
-    def flash_it(key, style=nil)
+    def flash_it(key = :success, style=nil)
 
       # default style is "success"
       (style = (key == :error ? :error : :success)) unless style

@@ -13,13 +13,21 @@
 
       included do
 
+        # instead of custom before_render filter we just override the render method itself
+        def render(*args)
+          generate_flash_message
+          super
+        end
+
         # override redirect_to to inject a automatic generated flash_message if it's one of our actions
         def redirect_to *args
-          generate_flash_message if ["create", "update", "destroy"].include?(action_name)
+          generate_flash_message
           super
         end
 
         def generate_flash_message
+          return unless ["create", "update", "destroy"].include?(action_name)
+
           var = instance_variable_get "@#{controller_name.singularize}"
           if var
             type = get_flash_type(var)

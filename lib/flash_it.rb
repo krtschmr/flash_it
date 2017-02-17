@@ -13,6 +13,12 @@
 
       included do
 
+        # override redirect_to to inject a automatic generated flash_message if it's one of our actions
+        def redirect_to *args
+          generate_flash_message if ["create", "update", "destroy"].include?(action_name)
+          super
+        end
+
         def generate_flash_message
           var = instance_variable_get "@#{controller_name.singularize}"
           if var

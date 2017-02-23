@@ -7,7 +7,7 @@ module FlashIt
 
   module ClassMethods
     def auto_flash options={}
-      before_render :generate_flash_message, only: [:create, :update, :destroy]
+      # before_render :generate_flash_message, only: [:create, :update, :destroy]
     end
   end
 
@@ -26,7 +26,6 @@ module FlashIt
 
     def generate_flash_message
       return unless ["create", "update", "destroy"].include?(action_name)
-
       var = instance_variable_get "@#{controller_name.singularize}"
       if var
         type = get_flash_type(var)
@@ -69,5 +68,6 @@ module FlashIt
       flash[style] = t(lookup)
     end
   end
+
 end
 ActionController::Base.include FlashIt

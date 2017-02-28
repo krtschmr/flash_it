@@ -29,7 +29,7 @@ module FlashIt
       var = instance_variable_get "@#{controller_name.singularize}"
       if var
         type = get_flash_type(var)
-        flash[type] = I18n.t("flash_messages.defaults.#{action_name}.#{type}", obj: var.model_name.human )
+        flash[type] ||= I18n.t("flash_messages.defaults.#{action_name}.#{type}", obj: var.model_name.human )
       end
     end
 
@@ -43,7 +43,9 @@ module FlashIt
       end
 
       if action_name == "destroy"
-        return var.persisted? ? :error : :success
+        return :success if var.has_attribute?(:deleted_at) && var.deleted_at
+        return :success if var.has_attribute?(:deleted) && var.deleted
+        var.persisted? ? :error : :success
       end
     end
 

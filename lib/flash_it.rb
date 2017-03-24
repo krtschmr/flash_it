@@ -26,12 +26,14 @@ module FlashIt
 
     def generate_flash_message
       return unless ["create", "update", "destroy"].include?(action_name)
+      
       var = instance_variable_get "@#{controller_name.singularize}"
       if var
         type = get_flash_type(var)
         flash[type] ||= I18n.t("flash_messages.defaults.#{action_name}.#{type}", obj: var.model_name.human )
       end
     end
+
 
     def get_flash_type(var)
       if action_name == "create"
@@ -43,7 +45,7 @@ module FlashIt
       end
 
       if action_name == "destroy"
-        return :success if var.has_attribute?(:deleted_at) && var.deleted_at
+        return :success if var.has_attribute?(:deleted_at) && var.deleted_at.present?
         return :success if var.has_attribute?(:deleted) && var.deleted
         var.persisted? ? :error : :success
       end
